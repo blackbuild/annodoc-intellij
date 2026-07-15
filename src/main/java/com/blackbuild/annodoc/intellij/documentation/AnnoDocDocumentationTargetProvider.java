@@ -9,13 +9,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiModifierListOwner;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public final class AnnoDocDocumentationTargetProvider implements PsiDocumentationTargetProvider {
     @Override
-    public @Nullable DocumentationTarget documentationTarget(PsiElement element, @Nullable PsiElement originalElement) {
+    public @Nullable DocumentationTarget documentationTarget(@NotNull PsiElement element, @Nullable PsiElement originalElement) {
         if (!(element instanceof PsiModifierListOwner owner)
                 || !(owner instanceof PsiClass || owner instanceof PsiMethod || owner instanceof PsiField)
                 || !(owner instanceof PsiCompiledElement)) {
