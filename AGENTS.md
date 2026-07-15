@@ -4,7 +4,7 @@ This is an early-stage IntelliJ Platform plugin. Product intent is still being e
 
 ### Project shape
 
-The plugin targets IntelliJ IDEA 2024.3 or newer, runs on Java 21, and depends on the bundled Groovy plugin. Read `docs/agents/intellij-platform.md` before changing extension registration, PSI/documentation behavior, threading, or platform compatibility.
+The project is being rebuilt as a Java 21 plugin for IntelliJ IDEA 2025.3 and 2026.1. It must not require the Groovy plugin at runtime. Read `docs/architecture.md` for the product and design boundaries, and `docs/agents/intellij-platform.md` before changing extension registration, PSI/documentation behavior, threading, or platform compatibility.
 
 ### Domain docs
 

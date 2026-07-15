@@ -1,14 +1,15 @@
 # IntelliJ Platform development
 
-## Current platform contract
+## Intended platform contract
 
 - Java toolchain: 21
-- IntelliJ Platform: IntelliJ IDEA Community 2024.3.6
-- Minimum build: 243
-- Required bundled plugin: `org.intellij.groovy`
+- Supported IntelliJ IDEA lines: 2025.3 and 2026.1
+- Minimum build: 253
+- Required language support: IntelliJ Java/JVM APIs
+- Groovy plugin: compatibility fixture only, not a runtime dependency
 - Build system: Gradle with the IntelliJ Platform Gradle Plugin 2.x
 
-Treat values in `gradle.properties`, `gradle/libs.versions.toml`, and `plugin.xml` as the executable source of truth when they differ from this summary.
+The current `gradle.properties`, version catalog, and `plugin.xml` still contain abandoned prototype and template settings. Until the cleanup vertical slice aligns them, treat `docs/architecture.md` and this contract as the intended target rather than inferring product decisions from those files.
 
 ## Platform API work
 
@@ -18,4 +19,4 @@ Keep extension registration and implementation together conceptually: a new prov
 
 Respect IntelliJ threading, read/write action, dumb-mode, PSI lifetime, and disposal rules. Tests that only call a class directly are insufficient when the platform lifecycle or extension lookup is part of the behavior; exercise the registered platform seam where feasible.
 
-The bundled Groovy plugin is a runtime dependency. When behavior touches Groovy PSI or documentation, use realistic Groovy fixture text and verify Java/Groovy behavior separately when their PSI paths differ.
+Plain Java projects are first-class consumers. Use the Groovy plugin only in compatibility fixtures that prove Quick Documentation from a KlumAST-oriented call site; do not make it a production plugin dependency.

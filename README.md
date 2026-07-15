@@ -1,52 +1,62 @@
-# klum-idea-plugin
+# AnnoDoc Support for IntelliJ IDEA
 
-![Build](https://github.com/klum-dsl/klum-idea-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
+> **Status: pre-alpha prototype.** This repository does not currently contain a working or installable plugin. Its original implementation was abandoned partway through and is being rebuilt from a clarified product definition.
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [pluginGroup](./gradle.properties) and [pluginName](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `MARKETPLACE_ID` in the above README badges. You can obtain it once the plugin is published to JetBrains Marketplace.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
-- [ ] Configure the [CODECOV_TOKEN](https://docs.codecov.com/docs/quick-start) secret for automated test coverage reports on PRs
+AnnoDoc Support for IntelliJ IDEA is intended to make documentation preserved in compiled JVM classes available through IntelliJ IDEA's normal Quick Documentation experience.
+
+When ordinary source Javadoc is unavailable, the plugin will read generated documentation metadata from supported annotations and render it as a transparent fallback. There is no separate tool window, action, project setup, or background indexing.
 
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+AnnoDoc Support for IntelliJ IDEA displays documentation preserved by [AnnoDocimal](https://github.com/blackbuild/anno-docimal) in compiled JVM classes through IntelliJ IDEA's standard Quick Documentation UI.
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
-
-To keep everything working, do not remove `<!-- ... -->` sections. 
+It is designed as a zero-configuration fallback when source Javadoc is unavailable. [KlumAST](https://github.com/klum-dsl/klum-ast) is the flagship initial use case, but the plugin itself is independent of KlumAST and does not require the Groovy plugin.
 <!-- Plugin description end -->
 
-## Installation
+## Why this exists
 
-- Using the IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "klum-idea-plugin"</kbd> >
-  <kbd>Install</kbd>
-  
-- Using JetBrains Marketplace:
+[AnnoDocimal](https://github.com/blackbuild/anno-docimal) preserves documentation in the runtime-visible `com.blackbuild.annodocimal.annotations.AnnoDoc` annotation. This allows Javadoc and documentation for generated declarations to survive in compiled class files even when usable sources are not attached.
 
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking the <kbd>Install to ...</kbd> button in case your IDE is running.
+[KlumAST](https://github.com/klum-dsl/klum-ast) generates documented DSL APIs and is the motivating first consumer. KlumAST's DSL-G work addresses completion through IDE-only generated source mirrors; this plugin addresses the separate case of retrieving documentation directly from compiled declarations.
 
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from JetBrains Marketplace and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+## Intended behavior
 
-- Manually:
+The first version will:
 
-  Download the [latest release](https://github.com/klum-dsl/klum-idea-plugin/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+- participate only when IntelliJ cannot provide ordinary source documentation;
+- inspect compiled types, methods, fields, and constructors on demand;
+- recognize `com.blackbuild.annodocimal.annotations.AnnoDoc#value` without a runtime dependency on AnnoDocimal;
+- show readable documentation in Quick Documentation, aiming for normal IntelliJ Javadoc rendering fidelity;
+- fail silently back to IntelliJ when annotation content is missing, blank, or unreadable;
+- work without project configuration, scanning, indexing, startup activity, or background caches;
+- support IntelliJ IDEA 2025.3 and 2026.1 initially; and
+- treat plain Java projects as first-class consumers while verifying the KlumAST/Groovy use case separately.
 
+## Initial non-goals
 
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+The first version will not provide:
 
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+- broader KlumAST-specific IDE behavior;
+- annotation-authoring or documentation-generation tools;
+- user-configurable annotation mappings;
+- a public extension API;
+- a custom documentation window or action;
+- a per-project enable/disable switch;
+- Marketplace publication or signing; or
+- a compatibility promise for JetBrains products other than IntelliJ IDEA.
+
+The architecture leaves room for additional annotation formats and AnnoDocimal's proposed structured annotation model without implementing those features prematurely. See [Architecture](docs/architecture.md).
+
+## First milestone
+
+The first milestone is a tested, locally installable plugin ZIP. It must prove the behavior with both:
+
+1. a small compiled AnnoDocimal fixture without attached sources; and
+2. a real KlumAST-generated API integration fixture.
+
+The final repository name, plugin ID, Java package, and Marketplace identity remain intentionally undecided until that vertical slice works. The current `klum-idea-plugin` repository name is provisional.
+
+## Development
+
+The project will be rebuilt as a Java 21 IntelliJ Platform plugin. Existing template Kotlin code and the abandoned documentation-provider experiment are not considered part of the intended design.
+
+Build and installation instructions will be added once the first working vertical slice exists.
