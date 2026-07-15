@@ -4,12 +4,10 @@ import com.blackbuild.annodocimal.annotations.AnnoDoc;
 import com.intellij.platform.backend.documentation.DocumentationData;
 import com.intellij.platform.backend.documentation.DocumentationTarget;
 import com.intellij.platform.backend.documentation.PsiDocumentationTargetProvider;
-import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiCompiledElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
-import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.testFramework.LightProjectDescriptor;
 import com.intellij.testFramework.PsiTestUtil;
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
@@ -34,12 +32,6 @@ public final class KlumAstQuickDocumentationTest extends LightJavaCodeInsightFix
     }
 
     public void testQuickDocumentationReadsAnnoDocFromRealKlumAstGeneratedMethodAtGroovyCallSite() {
-        PsiClass builderClass = JavaPsiFacade.getInstance(getProject()).findClass(
-                "fixture.DocumentedModel._RW",
-                GlobalSearchScope.allScope(getProject())
-        );
-        assertNotNull("The generated KlumAST builder must be available as compiled PSI", builderClass);
-
         myFixture.configureByText(
                 "Usage.groovy",
                 """
@@ -50,20 +42,9 @@ public final class KlumAstQuickDocumentationTest extends LightJavaCodeInsightFix
                 """
         );
 
-        PsiElement originalElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
-        PsiElement targetElement = myFixture.getElementAtCaret();
-        assertInstanceOf(targetElement, PsiMethod.class);
-        assertInstanceOf(targetElement, PsiCompiledElement.class);
-
-        DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
-                .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
-
-        assertNotNull("The registered provider must claim the real KlumAST-generated method", target);
-        DocumentationData documentation = assertInstanceOf(target.computeDocumentation(), DocumentationData.class);
-        assertTrue(documentation.getHtml().contains("Creates a new 'item' and adds it to the 'items' collection."));
+        assertTrue(quickDocumentationAtCaret().contains(
+                "Creates a new 'item' and adds it to the 'items' collection."
+        ));
     }
 
     public void testQuickDocumentationReadsAnnoDocInsideKlumAstFactoryClosure() {
@@ -78,10 +59,18 @@ public final class KlumAstQuickDocumentationTest extends LightJavaCodeInsightFix
                 """
         );
 
+        assertTrue(quickDocumentationAtCaret().contains(
+                "Creates a new 'item' and adds it to the 'items' collection."
+        ));
+    }
+
+    private String quickDocumentationAtCaret() {
         PsiElement originalElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
-        PsiElement targetElement = myFixture.getElementAtCaret();
-        assertInstanceOf(targetElement, PsiMethod.class);
+        PsiMethod targetElement = assertInstanceOf(myFixture.getElementAtCaret(), PsiMethod.class);
         assertInstanceOf(targetElement, PsiCompiledElement.class);
+        PsiClass containingClass = targetElement.getContainingClass();
+        assertNotNull(containingClass);
+        assertEquals("fixture.DocumentedModel._RW", containingClass.getQualifiedName());
 
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
@@ -89,9 +78,9 @@ public final class KlumAstQuickDocumentationTest extends LightJavaCodeInsightFix
                 .findFirst()
                 .orElse(null);
 
-        assertNotNull("The registered provider must claim the generated method inside the factory closure", target);
+        assertNotNull("The registered provider must claim the real KlumAST-generated method", target);
         DocumentationData documentation = assertInstanceOf(target.computeDocumentation(), DocumentationData.class);
-        assertTrue(documentation.getHtml().contains("Creates a new 'item' and adds it to the 'items' collection."));
+        return documentation.getHtml();
     }
 
     private void addLibrary(String name, Path jar) {
