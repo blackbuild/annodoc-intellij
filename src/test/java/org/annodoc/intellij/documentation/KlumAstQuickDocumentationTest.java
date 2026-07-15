@@ -66,6 +66,34 @@ public final class KlumAstQuickDocumentationTest extends LightJavaCodeInsightFix
         assertTrue(documentation.getHtml().contains("Creates a new 'item' and adds it to the 'items' collection."));
     }
 
+    public void testQuickDocumentationReadsAnnoDocInsideKlumAstFactoryClosure() {
+        myFixture.configureByText(
+                "Usage.groovy",
+                """
+                import fixture.DocumentedModel
+
+                DocumentedModel.Create.With {
+                    it<caret>em {}
+                }
+                """
+        );
+
+        PsiElement originalElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
+        PsiElement targetElement = myFixture.getElementAtCaret();
+        assertInstanceOf(targetElement, PsiMethod.class);
+        assertInstanceOf(targetElement, PsiCompiledElement.class);
+
+        DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
+                .map(provider -> provider.documentationTarget(targetElement, originalElement))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull("The registered provider must claim the generated method inside the factory closure", target);
+        DocumentationData documentation = assertInstanceOf(target.computeDocumentation(), DocumentationData.class);
+        assertTrue(documentation.getHtml().contains("Creates a new 'item' and adds it to the 'items' collection."));
+    }
+
     private void addLibrary(String name, Path jar) {
         PsiTestUtil.addLibrary(getModule(), name, jar.getParent().toString(), jar.getFileName().toString());
     }
