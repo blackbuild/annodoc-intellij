@@ -70,3 +70,5 @@ Build a locally installable plugin ZIP with:
 ```shell
 ./gradlew buildPlugin
 ```
+
+Maintainers should follow [the release procedure](docs/releasing.md) before publishing a candidate.

@@ -1,10 +1,6 @@
 # 0.1.0-alpha.1 release-candidate validation
 
-## Release controls
-
-`pluginVersion = 0.1.0-alpha.1` maps to the JetBrains Marketplace `alpha` channel through the IntelliJ Platform Gradle Plugin publishing configuration. The build workflow prepares a GitHub draft release only after its build, test, Qodana, and verifier jobs succeed on `main`; it preserves existing drafts and releases rather than deleting them.
-
-Marketplace publication is not triggered by creating, publishing, or promoting a GitHub release. A maintainer must first publish the GitHub release as a prerelease, then manually dispatch the `Release` workflow with its exact tag and the literal confirmation `publish`. The workflow checks both conditions, checks out the tag, verifies that the Gradle version equals the tag and uses the alpha suffix, then uses only GitHub repository secrets for signing and publication.
+The maintainer procedure for drafting, approving, signing, and publishing a release is in [Releasing AnnoDoc Support](releasing.md). This document records the validation evidence for the `0.1.0-alpha.1` candidate.
 
 ## Dependency triage on 2026-07-15
 
