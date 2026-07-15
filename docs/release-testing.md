@@ -24,7 +24,7 @@ The old changelog and IntelliJ Platform Gradle Plugin proposals (PRs #21 and #20
 
 The plugin uses `PsiDocumentationTargetProvider` and `DocumentationTarget` because JetBrains documents the Documentation Target API as the replacement for the deprecated Documentation Provider API. In the pinned IntelliJ IDEA 2025.3.6 SDK, the provider API is marked `ApiStatus.OverrideOnly` and its extension-point field is `ApiStatus.Internal`; the JetBrains extension-point catalog labels the documentation-target path experimental. The older provider API is not a stable replacement and cannot provide the same fallback integration without using deprecated APIs.
 
-This is an accepted compatibility risk for the 2025.3/2026.1 release lines. Keep `verifyPlugin` required for both supported IntelliJ IDEA lines and re-evaluate the provider when JetBrains promotes a stable documentation fallback seam.
+`verifyPlugin` reports no compatibility errors for IDEA 2025.3, 2026.1, or the configured 2026.2 EAP. It reports six experimental references for 2025.3 (the documentation target presentation builders and `Pointer.delegatingPointer`) and two for 2026.1 (the pointer interface and its delegating method); the configured EAP reports none. These types are required to implement the target contract, so this is an accepted compatibility risk for the 2025.3/2026.1 release lines. Keep `verifyPlugin` required and re-evaluate the provider when JetBrains promotes a stable documentation fallback seam.
 
 ## Manual IDEA smoke test
 
