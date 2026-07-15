@@ -1,6 +1,6 @@
 # AnnoDoc Support for IntelliJ IDEA
 
-> **Status: pre-alpha prototype.** This repository does not currently contain a working or installable plugin. Its original implementation was abandoned partway through and is being rebuilt from a clarified product definition.
+> **Status: pre-alpha.** The first compiled-Java Quick Documentation fallback is implemented, tested, and verifier-compatible with the initial IntelliJ release range. A real KlumAST integration fixture is still pending.
 
 AnnoDoc Support for IntelliJ IDEA is intended to make documentation preserved in compiled JVM classes available through IntelliJ IDEA's normal Quick Documentation experience.
 
@@ -20,16 +20,16 @@ It is designed as a zero-configuration fallback when source Javadoc is unavailab
 
 ## Intended behavior
 
-The first version will:
+The current vertical slice:
 
-- participate only when IntelliJ cannot provide ordinary source documentation;
-- inspect compiled types, methods, fields, and constructors on demand;
-- recognize `com.blackbuild.annodocimal.annotations.AnnoDoc#value` without a runtime dependency on AnnoDocimal;
-- show readable documentation in Quick Documentation, aiming for normal IntelliJ Javadoc rendering fidelity;
-- fail silently back to IntelliJ when annotation content is missing, blank, or unreadable;
-- work without project configuration, scanning, indexing, startup activity, or background caches;
-- support IntelliJ IDEA 2025.3 and 2026.1 initially; and
-- treat plain Java projects as first-class consumers while verifying the KlumAST/Groovy use case separately.
+- participates only when IntelliJ cannot provide ordinary source documentation;
+- inspects compiled types, methods, fields, and constructors on demand;
+- recognizes `com.blackbuild.annodocimal.annotations.AnnoDoc#value` without a runtime dependency on AnnoDocimal;
+- renders ordinary Javadoc markup and representative block tags in Quick Documentation;
+- fails silently back to IntelliJ when annotation content is missing, blank, or unreadable;
+- works without project configuration, scanning, indexing, startup activity, or background caches;
+- supports IntelliJ IDEA 2025.3 and 2026.1 initially; and
+- treats plain Java projects as first-class consumers while the KlumAST/Groovy fixture remains separate.
 
 ## Initial non-goals
 
@@ -57,6 +57,16 @@ The final repository name, plugin ID, Java package, and Marketplace identity rem
 
 ## Development
 
-The project will be rebuilt as a Java 21 IntelliJ Platform plugin. Existing template Kotlin code and the abandoned documentation-provider experiment are not considered part of the intended design.
+The plugin is implemented in Java 21 and currently builds against IntelliJ IDEA 2025.3.6 using the IntelliJ Platform Gradle Plugin. It has no production dependency on Kotlin, Groovy, AnnoDocimal, or KlumAST; only IntelliJ's bundled Java plugin is required.
 
-Build and installation instructions will be added once the first working vertical slice exists.
+Run the focused IntelliJ fixture suite with:
+
+```shell
+./gradlew test
+```
+
+Build a locally installable plugin ZIP with:
+
+```shell
+./gradlew buildPlugin
+```
