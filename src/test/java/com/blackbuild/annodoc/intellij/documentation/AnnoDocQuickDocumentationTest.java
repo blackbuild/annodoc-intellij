@@ -1,4 +1,4 @@
-package org.annodoc.intellij.documentation;
+package com.blackbuild.annodoc.intellij.documentation;
 
 import com.blackbuild.annodocimal.annotations.AnnoDoc;
 import com.intellij.platform.backend.documentation.DocumentationData;

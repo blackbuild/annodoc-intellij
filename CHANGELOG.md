@@ -2,6 +2,10 @@
 
 # AnnoDoc Support for IntelliJ IDEA Changelog
 
+## Unreleased
+
+- Adopt Blackbuild's permanent AnnoDoc Support identity and repository coordinates.
+
 ## [Unreleased]
 ### Added
 - Quick Documentation fallback for AnnoDoc metadata on compiled Java types, methods, constructors, and fields without attached sources.

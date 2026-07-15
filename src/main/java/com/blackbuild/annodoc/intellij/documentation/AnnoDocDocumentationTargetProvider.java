@@ -1,4 +1,4 @@
-package org.annodoc.intellij.documentation;
+package com.blackbuild.annodoc.intellij.documentation;
 
 import com.intellij.lang.java.JavaDocumentationProvider;
 import com.intellij.platform.backend.documentation.DocumentationTarget;

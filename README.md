@@ -53,7 +53,7 @@ The first milestone is a tested, locally installable plugin ZIP. Its fixture sui
 1. a small compiled AnnoDocimal fixture without attached sources; and
 2. a real KlumAST-generated API integration fixture.
 
-The final repository name, plugin ID, Java package, and Marketplace identity remain intentionally undecided. The current `klum-idea-plugin` repository name is provisional.
+The plugin's permanent identity is `com.blackbuild.annodoc.intellij`, published by Blackbuild from [blackbuild/annodoc-intellij](https://github.com/blackbuild/annodoc-intellij).
 
 ## Development
 

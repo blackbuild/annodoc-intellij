@@ -1,4 +1,4 @@
-package org.annodoc.intellij.documentation;
+package com.blackbuild.annodoc.intellij.documentation;
 
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiAnnotation;

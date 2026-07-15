@@ -1,14 +1,14 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.pauxus.klumideaplugin</id>
+    <id>com.blackbuild.annodoc.intellij</id>
     <name>AnnoDoc Support</name>
-    <vendor>pauxus</vendor>
+    <vendor>Blackbuild</vendor>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <platform.backend.documentation.psiTargetProvider
-                implementation="org.annodoc.intellij.documentation.AnnoDocDocumentationTargetProvider"/>
+                implementation="com.blackbuild.annodoc.intellij.documentation.AnnoDocDocumentationTargetProvider"/>
     </extensions>
 </idea-plugin>
