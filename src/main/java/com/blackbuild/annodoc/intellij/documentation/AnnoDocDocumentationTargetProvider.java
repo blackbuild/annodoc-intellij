@@ -17,10 +17,8 @@ public final class AnnoDocDocumentationTargetProvider implements PsiDocumentatio
     @Override
     public @Nullable DocumentationTarget documentationTarget(PsiElement element, @Nullable PsiElement originalElement) {
         if (!(element instanceof PsiModifierListOwner owner)
-                || (!(element instanceof PsiClass)
-                && !(element instanceof PsiMethod)
-                && !(element instanceof PsiField))
-                || !(element instanceof PsiCompiledElement)) {
+                || !(owner instanceof PsiClass || owner instanceof PsiMethod || owner instanceof PsiField)
+                || !(owner instanceof PsiCompiledElement)) {
             return null;
         }
 
