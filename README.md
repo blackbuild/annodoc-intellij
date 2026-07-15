@@ -1,6 +1,6 @@
 # AnnoDoc Support for IntelliJ IDEA
 
-> **Status: pre-alpha.** The first milestone behavior is implemented and tested with both a compiled Java fixture and a real KlumAST-generated API used from Groovy. Release identity and publication remain pending.
+> **Status: pre-alpha.** The first milestone behavior is implemented and tested with both a compiled Java fixture and a real KlumAST-generated API used from Groovy. Marketplace publication remains pending.
 
 AnnoDoc Support for IntelliJ IDEA is intended to make documentation preserved in compiled JVM classes available through IntelliJ IDEA's normal Quick Documentation experience.
 
@@ -53,7 +53,7 @@ The first milestone is a tested, locally installable plugin ZIP. Its fixture sui
 1. a small compiled AnnoDocimal fixture without attached sources; and
 2. a real KlumAST-generated API integration fixture.
 
-The plugin's permanent identity is `com.blackbuild.annodoc.intellij`, published by Blackbuild from [blackbuild/annodoc-intellij](https://github.com/blackbuild/annodoc-intellij).
+The permanent plugin ID is `com.blackbuild.annodoc`, with code and build coordinates under `com.blackbuild.annodoc.intellij`. Blackbuild publishes the plugin from [blackbuild/annodoc-intellij](https://github.com/blackbuild/annodoc-intellij).
 
 ## Development
 

@@ -67,7 +67,7 @@ The V1 documentation mapping contains only an annotation FQN and member name. Do
 - Supported product: IntelliJ IDEA.
 - Initial platform lines: 2025.3 and 2026.1.
 - Distribution milestone: tested, locally installable plugin ZIP.
-- Marketplace publication, signing, final plugin identity, repository renaming, and broader JetBrains product claims are deferred.
+- Marketplace publication, signing, release versioning, and broader JetBrains product claims are deferred.
 
 The current Kotlin template sources, sample tool window, startup activity, random-number service, and abandoned Java documentation target are disposable. Retain build and CI infrastructure only where it still serves the new vertical slice.
 
