@@ -1,7 +1,9 @@
 [versions]
 # libraries
 annodocimal = "0.7.1"
+groovy = "4.0.32"
 junit = "4.13.2"
+klumAst = "3.0.0"
 opentest4j = "1.3.0"
 
 # plugins
@@ -11,7 +13,9 @@ qodana = "2025.1.1"
 
 [libraries]
 annodocimal-annotations = { group = "com.blackbuild.annodocimal", name = "anno-docimal-annotations", version.ref = "annodocimal" }
+groovy = { group = "org.apache.groovy", name = "groovy", version.ref = "groovy" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+klum-ast = { group = "com.blackbuild.klum.ast", name = "klum-ast", version.ref = "klumAst" }
 opentest4j = { group = "org.opentest4j", name = "opentest4j", version.ref = "opentest4j" }
 
 [plugins]
