@@ -32,7 +32,9 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
@@ -64,10 +66,10 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
                 libraryJar.getFileName().toString()
         );
         String fixtureLibraryRootUrl = VfsUtil.getUrlForLibraryRoot(libraryJar.toFile());
-        fixtureLibrary = java.util.Arrays.stream(ModuleRootManager.getInstance(getModule()).getOrderEntries())
+        fixtureLibrary = Arrays.stream(ModuleRootManager.getInstance(getModule()).getOrderEntries())
                 .filter(LibraryOrderEntry.class::isInstance)
                 .map(LibraryOrderEntry.class::cast)
-                .filter(entry -> java.util.Arrays.asList(entry.getRootUrls(OrderRootType.CLASSES))
+                .filter(entry -> Arrays.asList(entry.getRootUrls(OrderRootType.CLASSES))
                         .contains(fixtureLibraryRootUrl))
                 .map(LibraryOrderEntry::getLibrary)
                 .findFirst()
@@ -107,7 +109,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
 
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
@@ -127,7 +129,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = myFixture.getElementAtCaret();
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
@@ -148,7 +150,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = newExpression.resolveConstructor();
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
@@ -167,7 +169,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = myFixture.getElementAtCaret();
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
@@ -186,7 +188,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = myFixture.getElementAtCaret();
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
@@ -203,7 +205,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = myFixture.getElementAtCaret();
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
@@ -228,7 +230,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = myFixture.getElementAtCaret();
         DocumentationTarget annoDocTarget = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
         assertNull("Source declarations must not be claimed by the AnnoDoc fallback", annoDocTarget);
@@ -268,7 +270,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         assertFalse(JavaDocumentationProvider.getExternalJavaDocUrl(targetElement).isEmpty());
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
         assertNull("External Javadoc must retain precedence over the AnnoDoc fallback", target);
@@ -284,7 +286,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = myFixture.getElementAtCaret();
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
@@ -308,7 +310,7 @@ public final class AnnoDocQuickDocumentationTest extends LightJavaCodeInsightFix
         PsiElement targetElement = myFixture.getElementAtCaret();
         DocumentationTarget target = PsiDocumentationTargetProvider.EP_NAME.getExtensionList().stream()
                 .map(provider -> provider.documentationTarget(targetElement, originalElement))
-                .filter(java.util.Objects::nonNull)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
 
