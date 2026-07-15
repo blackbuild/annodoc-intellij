@@ -4,6 +4,13 @@ This project makes documentation carried by annotations available through Intell
 
 ## Language
 
+**Blackbuild**:
+The organization that owns AnnoDocimal and its official IntelliJ IDEA plugin. KlumAST is the plugin's flagship consumer, but does not define its ownership or product identity.
+
+**AnnoDoc Support for IntelliJ IDEA**:
+The official Blackbuild plugin that exposes AnnoDoc through IntelliJ IDEA's documentation experience. Use **AnnoDoc Support** where a shorter product or Marketplace display name is needed.
+_Avoid_: AnnoDocimal Support, Klum IDEA plugin
+
 **AnnoDocimal**:
 The [library and build-tool ecosystem](https://github.com/blackbuild/anno-docimal) that preserves source Javadoc in AnnoDoc annotations so documentation remains available from compiled classes. It is the primary producer of the metadata consumed by this project.
 
