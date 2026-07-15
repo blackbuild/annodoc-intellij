@@ -1,9 +1,11 @@
+import org.gradle.api.tasks.bundling.Jar
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     java
+    groovy
     alias(libs.plugins.intelliJPlatform)
     alias(libs.plugins.changelog)
     alias(libs.plugins.qodana)
@@ -15,6 +17,16 @@ version = providers.gradleProperty("pluginVersion").get()
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+val klumAstFixture = sourceSets.create("klumAstFixture")
+val klumAstFixtureJarFile = layout.buildDirectory.file("test-fixtures/klum-ast-fixture.jar")
+val klumAstFixtureJar = tasks.register<Jar>("klumAstFixtureJar") {
+    archiveFileName = klumAstFixtureJarFile.map { it.asFile.name }
+    destinationDirectory = klumAstFixtureJarFile.map { it.asFile.parentFile }
+    from(klumAstFixture.output) {
+        exclude("META-INF/plugin.xml")
     }
 }
 
@@ -30,6 +42,9 @@ repositories {
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
+    add(klumAstFixture.implementationConfigurationName, libs.groovy)
+    add(klumAstFixture.implementationConfigurationName, libs.klum.ast)
+
     testImplementation(libs.annodocimal.annotations)
     testImplementation(libs.junit)
     testImplementation(libs.opentest4j)
@@ -49,6 +64,7 @@ dependencies {
 
         testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.Plugin.Java)
+        testBundledPlugin("org.intellij.groovy")
     }
 }
 
@@ -117,6 +133,11 @@ changelog {
 }
 
 tasks {
+    test {
+        dependsOn(klumAstFixtureJar)
+        systemProperty("annodoc.klumAstFixtureJar", klumAstFixtureJarFile.get().asFile.absolutePath)
+    }
+
     wrapper {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
     }

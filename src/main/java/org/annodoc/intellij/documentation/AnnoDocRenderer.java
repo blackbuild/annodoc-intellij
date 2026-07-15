@@ -11,6 +11,7 @@ import com.intellij.psi.PsiParameter;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.util.IncorrectOperationException;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,7 +78,7 @@ final class AnnoDocRenderer {
     }
 
     private static String parameterList(PsiMethod method) {
-        return java.util.Arrays.stream(method.getParameterList().getParameters())
+        return Arrays.stream(method.getParameterList().getParameters())
                 .map(PsiParameter::getName)
                 .map(name -> "Object " + name)
                 .collect(Collectors.joining(", "));

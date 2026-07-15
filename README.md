@@ -1,6 +1,6 @@
 # AnnoDoc Support for IntelliJ IDEA
 
-> **Status: pre-alpha.** The first compiled-Java Quick Documentation fallback is implemented, tested, and verifier-compatible with the initial IntelliJ release range. A real KlumAST integration fixture is still pending.
+> **Status: pre-alpha.** The first milestone behavior is implemented and tested with both a compiled Java fixture and a real KlumAST-generated API used from Groovy. Release identity and publication remain pending.
 
 AnnoDoc Support for IntelliJ IDEA is intended to make documentation preserved in compiled JVM classes available through IntelliJ IDEA's normal Quick Documentation experience.
 
@@ -29,7 +29,7 @@ The current vertical slice:
 - fails silently back to IntelliJ when annotation content is missing, blank, or unreadable;
 - works without project configuration, scanning, indexing, startup activity, or background caches;
 - supports IntelliJ IDEA 2025.3 and 2026.1 initially; and
-- treats plain Java projects as first-class consumers while the KlumAST/Groovy fixture remains separate.
+- treats plain Java projects as first-class consumers while verifying a real KlumAST-generated API through a separate Groovy compatibility fixture.
 
 ## Initial non-goals
 
@@ -48,16 +48,16 @@ The architecture leaves room for additional annotation formats and AnnoDocimal's
 
 ## First milestone
 
-The first milestone is a tested, locally installable plugin ZIP. It must prove the behavior with both:
+The first milestone is a tested, locally installable plugin ZIP. Its fixture suite proves the behavior with both:
 
 1. a small compiled AnnoDocimal fixture without attached sources; and
 2. a real KlumAST-generated API integration fixture.
 
-The final repository name, plugin ID, Java package, and Marketplace identity remain intentionally undecided until that vertical slice works. The current `klum-idea-plugin` repository name is provisional.
+The final repository name, plugin ID, Java package, and Marketplace identity remain intentionally undecided. The current `klum-idea-plugin` repository name is provisional.
 
 ## Development
 
-The plugin is implemented in Java 21 and currently builds against IntelliJ IDEA 2025.3.6 using the IntelliJ Platform Gradle Plugin. It has no production dependency on Kotlin, Groovy, AnnoDocimal, or KlumAST; only IntelliJ's bundled Java plugin is required.
+The plugin is implemented in Java 21 and currently builds against IntelliJ IDEA 2025.3.6 using the IntelliJ Platform Gradle Plugin. It has no production dependency on Kotlin, Groovy, AnnoDocimal, or KlumAST; only IntelliJ's bundled Java plugin is required. Groovy 4 and KlumAST 3 are confined to the compatibility fixture build and test environment.
 
 Run the focused IntelliJ fixture suite with:
 
