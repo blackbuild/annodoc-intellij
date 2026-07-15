@@ -1,6 +1,6 @@
 # AnnoDoc Support for IntelliJ IDEA
 
-> **Status: pre-alpha.** The first milestone behavior is implemented and tested with both a compiled Java fixture and a real KlumAST-generated API used from Groovy. Marketplace publication remains pending.
+> **Status: 0.1.0-alpha.1 release candidate.** The first milestone behavior is implemented and tested with both a compiled Java fixture and a real KlumAST-generated API used from Groovy. Marketplace publication remains pending explicit maintainer approval.
 
 AnnoDoc Support for IntelliJ IDEA is intended to make documentation preserved in compiled JVM classes available through IntelliJ IDEA's normal Quick Documentation experience.
 
@@ -41,14 +41,14 @@ The first version will not provide:
 - a public extension API;
 - a custom documentation window or action;
 - a per-project enable/disable switch;
-- Marketplace publication or signing; or
+- automatic Marketplace publication; or
 - a compatibility promise for JetBrains products other than IntelliJ IDEA.
 
 The architecture leaves room for additional annotation formats and AnnoDocimal's proposed structured annotation model without implementing those features prematurely. See [Architecture](docs/architecture.md).
 
 ## First milestone
 
-The first milestone is a tested, locally installable plugin ZIP. Its fixture suite proves the behavior with both:
+The `0.1.0-alpha.1` release candidate is a tested, locally installable plugin ZIP. Its fixture suite proves the behavior with both:
 
 1. a small compiled AnnoDocimal fixture without attached sources; and
 2. a real KlumAST-generated API integration fixture.
