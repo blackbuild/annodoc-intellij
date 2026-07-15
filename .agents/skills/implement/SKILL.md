@@ -5,7 +5,7 @@ description: Implement an approved Klum IDEA plugin issue, PRD, or vertical slic
 
 # Implement Approved Work
 
-1. Read the complete issue or PRD, `AGENTS.md`, `docs/agents/commits.md`, relevant entries in `CONTEXT.md`, applicable ADRs, and the other agent docs referenced by `AGENTS.md`.
+1. Read the complete issue or PRD, `AGENTS.md`, `docs/agents/coding-style.md`, `docs/agents/commits.md`, relevant entries in `CONTEXT.md`, applicable ADRs, and the other agent docs referenced by `AGENTS.md`.
 2. State the accepted behavior, out-of-scope behavior, and the public IntelliJ Platform seam to test. Resolve material ambiguity before coding; do not quietly expand the design. Before the first commit, create a new branch dedicated to the issue from the agreed base, or confirm that the current branch was newly created for this issue.
 3. Use the `tdd` skill where a reliable fixture seam exists. Work in thin vertical slices: one failing behavioral test, minimal implementation, then the next slice. Commit each completed reasoning slice according to `docs/agents/commits.md`; keep the failing test and the change that makes it pass in the same green commit.
 4. Use the narrowest relevant test during iteration. Follow `docs/agents/testing.md` for final verification and `docs/agents/intellij-platform.md` when platform APIs or plugin registration are involved.

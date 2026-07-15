@@ -10,6 +10,10 @@ The project is being rebuilt as a Java 21 plugin for IntelliJ IDEA 2025.3 and 20
 
 Use a single-context layout: `CONTEXT.md` at the repository root and ADRs under `docs/adr/`. Create them lazily as decisions emerge. See `docs/agents/domain.md`.
 
+### Coding style
+
+Import referenced Java types and use their simple names. Fully qualified names in source are reserved for genuine name conflicts or another documented technical necessity. See `docs/agents/coding-style.md`.
+
 ### Testing
 
 Prefer IntelliJ fixture tests through observable platform seams. Run the narrowest relevant test during development and `./gradlew check` before final handoff when practical. See `docs/agents/testing.md`.
