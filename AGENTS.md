@@ -14,6 +14,10 @@ Use a single-context layout: `CONTEXT.md` at the repository root and ADRs under 
 
 Prefer IntelliJ fixture tests through observable platform seams. Run the narrowest relevant test during development and `./gradlew check` before final handoff when practical. See `docs/agents/testing.md`.
 
+### Issue implementation commits
+
+Implement issues on a new, dedicated issue branch using small, reasoned commits. Agents may create commits there without asking. Review and, when necessary, rewrite the local commit sequence before handoff. See `docs/agents/commits.md`.
+
 ### Issues and pull requests
 
 Issues and PRDs live in GitHub Issues. The repository does not yet have agent-workflow labels; do not assume `ready-for-agent` or related labels exist. See `docs/agents/issue-tracker.md`.

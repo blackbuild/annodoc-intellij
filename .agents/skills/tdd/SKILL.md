@@ -11,6 +11,8 @@ When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and 
 
 Also read `docs/agents/testing.md`. For this plugin, an IntelliJ fixture, registered extension, PSI interaction, or documentation target is often the meaningful public seam; a direct call to an implementation class may bypass the behavior that needs proof.
 
+When committing issue work, also follow `docs/agents/commits.md` if it exists.
+
 ## What a good test is
 
 Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification — "user can checkout with valid cart" tells you exactly what capability exists — and survives refactors because it doesn't care about internal structure.
@@ -35,4 +37,5 @@ Ask: "What is the observable IntelliJ Platform interface, and which seam should 
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
+- **Commit on green.** Keep the initially failing test and its minimal implementation in one self-contained commit. Commit only after that test is green again; never preserve the red half of a TDD cycle as its own commit.
 - **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
