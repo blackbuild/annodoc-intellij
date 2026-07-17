@@ -24,6 +24,6 @@ Implement issues on a new, dedicated issue branch using small, reasoned commits.
 
 ### Issues and pull requests
 
-Issues and PRDs live in GitHub Issues. The repository does not yet have agent-workflow labels; do not assume `ready-for-agent` or related labels exist. See `docs/agents/issue-tracker.md`.
+Issues and PRDs live in GitHub Issues. Use the workflow-label vocabulary defined in `docs/agents/triage-labels.md` and follow `docs/agents/issue-tracker.md` for tracker operations.
 
 For user-visible changes, keep `CHANGELOG.md`, the README plugin description, `plugin.xml`, and compatibility metadata consistent. See `docs/agents/pull-requests.md`.
