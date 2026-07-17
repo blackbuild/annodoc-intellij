@@ -47,6 +47,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      # Verify artifact selection fails safely before using it for the build output.
+      - name: Test Plugin Artifact Preparation
+        run: bash .github/scripts/prepare-plugin-artifact-test.sh
+
       # Build plugin
       - name: Build plugin
         run: ./gradlew buildPlugin
@@ -55,17 +59,15 @@ jobs:
       - name: Prepare Plugin Artifact
         id: artifact
         shell: bash
-        run: |
-          FILENAME=$(find "${{ github.workspace }}/build/distributions" -maxdepth 1 -name '*.zip' -printf '%f\\n')
-          test -n "$FILENAME"
-          echo "filename=${FILENAME}" >> "$GITHUB_OUTPUT"
+        run: bash .github/scripts/prepare-plugin-artifact.sh "${{ github.workspace }}/build/distributions"
 
       # Store an already-built plugin as an artifact for downloading
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.artifact.outputs.filename }}
-          path: ./build/distributions/${{ steps.artifact.outputs.filename }}
+          path: ${{ steps.artifact.outputs.path }}
+          if-no-files-found: error
 
   # Run tests and upload a code coverage report
   test:
