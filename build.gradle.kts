@@ -47,6 +47,39 @@ val manualTestLibraryJar = tasks.register<Jar>("manualTestLibraryJar") {
 
 manualTestConsumer.compileClasspath = files(manualTestLibraryJarFile)
 
+val manualTestIdeaVersion = providers.gradleProperty("manualTestIdeaVersion").orElse("")
+val manualTestProjectDirectory = layout.buildDirectory.dir(
+    manualTestIdeaVersion.map { "manual-test/idea-$it" }
+)
+
+val prepareManualTestProject = tasks.register<Sync>("prepareManualTestProject") {
+    group = "verification"
+    description = "Builds a clean AnnoDoc smoke-test project for one supported IntelliJ IDEA line."
+    dependsOn(manualTestConsumer.compileJavaTaskName)
+
+    into(manualTestProjectDirectory)
+    from("manual-test/project-template") {
+        exclude("idea/**")
+    }
+    from("manual-test/project-template/idea") {
+        into(".idea")
+    }
+    from(manualTestLibraryJar.flatMap { it.archiveFile }) {
+        into("lib")
+    }
+    inputs.property("manualTestIdeaVersion", manualTestIdeaVersion)
+
+    doFirst {
+        val requestedVersion = inputs.properties.getValue("manualTestIdeaVersion") as String
+        val supportedVersions = setOf("2025.3", "2026.1")
+        if (requestedVersion !in supportedVersions) {
+            throw GradleException(
+                "Set -PmanualTestIdeaVersion to one of: ${supportedVersions.joinToString()}"
+            )
+        }
+    }
+}
+
 // Configure project's dependencies
 repositories {
     mavenCentral()
