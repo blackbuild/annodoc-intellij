@@ -22,6 +22,13 @@ Prefer IntelliJ fixture tests through observable platform seams. Run the narrowe
 
 Implement issues on a new, dedicated issue branch using small, reasoned commits. Agents may create commits there without asking. Review and, when necessary, rewrite the local commit sequence before handoff. See `docs/agents/commits.md`.
 
+### License plugin
+
+- If the license plugin or its configuration conflicts with a planned change, ask for the plugin or configuration to be changed.
+- Never rename, retype, or otherwise adapt files merely to circumvent license-header handling. For example, do not rename a `.txt` file to `.java` because the plugin cannot handle `.txt` files.
+- An outdated year in a license file requires a dedicated issue.
+- If an outdated year or related structural problem is discovered incidentally during another task, ask for confirmation before creating the separate issue or task.
+
 ### Issues and pull requests
 
 Issues and PRDs live in GitHub Issues. Use the workflow-label vocabulary defined in `docs/agents/triage-labels.md` and follow `docs/agents/issue-tracker.md` for tracker operations.
