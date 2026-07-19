@@ -30,6 +30,23 @@ val klumAstFixtureJar = tasks.register<Jar>("klumAstFixtureJar") {
     }
 }
 
+val manualTestLibrary = sourceSets.create("manualTestLibrary") {
+    java.srcDir("manual-test/library/src/main/java")
+}
+val manualTestConsumer = sourceSets.create("manualTestConsumer") {
+    java.srcDir("manual-test/project-template/src")
+}
+val manualTestLibraryJarFile = layout.buildDirectory.file("manual-test/fixture/annodoc-demo-library.jar")
+val manualTestLibraryJar = tasks.register<Jar>("manualTestLibraryJar") {
+    archiveFileName = manualTestLibraryJarFile.map { it.asFile.name }
+    destinationDirectory = manualTestLibraryJarFile.map { it.asFile.parentFile }
+    from(manualTestLibrary.output) {
+        exclude("META-INF/plugin.xml")
+    }
+}
+
+manualTestConsumer.compileClasspath = files(manualTestLibraryJarFile)
+
 // Configure project's dependencies
 repositories {
     mavenCentral()
@@ -133,9 +150,17 @@ changelog {
 }
 
 tasks {
+    named<JavaCompile>(manualTestConsumer.compileJavaTaskName) {
+        dependsOn(manualTestLibraryJar)
+    }
+
     test {
         dependsOn(klumAstFixtureJar)
         systemProperty("annodoc.klumAstFixtureJar", klumAstFixtureJarFile.get().asFile.absolutePath)
+    }
+
+    check {
+        dependsOn(manualTestConsumer.compileJavaTaskName)
     }
 
     wrapper {
