@@ -30,6 +30,56 @@ val klumAstFixtureJar = tasks.register<Jar>("klumAstFixtureJar") {
     }
 }
 
+val manualTestLibrary = sourceSets.create("manualTestLibrary") {
+    java.srcDir("manual-test/library/src/main/java")
+}
+val manualTestConsumer = sourceSets.create("manualTestConsumer") {
+    java.srcDir("manual-test/project-template/src")
+}
+val manualTestLibraryJarFile = layout.buildDirectory.file("manual-test/fixture/annodoc-demo-library.jar")
+val manualTestLibraryJar = tasks.register<Jar>("manualTestLibraryJar") {
+    archiveFileName = manualTestLibraryJarFile.map { it.asFile.name }
+    destinationDirectory = manualTestLibraryJarFile.map { it.asFile.parentFile }
+    from(manualTestLibrary.output) {
+        exclude("META-INF/plugin.xml")
+    }
+}
+
+manualTestConsumer.compileClasspath = files(manualTestLibraryJarFile)
+
+val manualTestIdeaVersion = providers.gradleProperty("manualTestIdeaVersion").orElse("")
+val manualTestProjectDirectory = layout.buildDirectory.dir(
+    manualTestIdeaVersion.map { "manual-test/idea-$it" }
+)
+
+val prepareManualTestProject = tasks.register<Sync>("prepareManualTestProject") {
+    group = "verification"
+    description = "Builds a clean AnnoDoc smoke-test project for one supported IntelliJ IDEA line."
+    dependsOn(manualTestConsumer.compileJavaTaskName)
+
+    into(manualTestProjectDirectory)
+    from("manual-test/project-template") {
+        exclude("idea/**")
+    }
+    from("manual-test/project-template/idea") {
+        into(".idea")
+    }
+    from(manualTestLibraryJar.flatMap { it.archiveFile }) {
+        into("lib")
+    }
+    inputs.property("manualTestIdeaVersion", manualTestIdeaVersion)
+
+    doFirst {
+        val requestedVersion = inputs.properties.getValue("manualTestIdeaVersion") as String
+        val supportedVersions = setOf("2025.3", "2026.1")
+        if (requestedVersion !in supportedVersions) {
+            throw GradleException(
+                "Set -PmanualTestIdeaVersion to one of: ${supportedVersions.joinToString()}"
+            )
+        }
+    }
+}
+
 // Configure project's dependencies
 repositories {
     mavenCentral()
@@ -133,9 +183,17 @@ changelog {
 }
 
 tasks {
+    named<JavaCompile>(manualTestConsumer.compileJavaTaskName) {
+        dependsOn(manualTestLibraryJar)
+    }
+
     test {
         dependsOn(klumAstFixtureJar)
         systemProperty("annodoc.klumAstFixtureJar", klumAstFixtureJarFile.get().asFile.absolutePath)
+    }
+
+    check {
+        dependsOn(manualTestConsumer.compileJavaTaskName)
     }
 
     wrapper {

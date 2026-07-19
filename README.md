@@ -71,4 +71,12 @@ Build a locally installable plugin ZIP with:
 ./gradlew buildPlugin
 ```
 
+Generate a clean Java smoke-test project for a supported IntelliJ IDEA line with:
+
+```shell
+./gradlew prepareManualTestProject -PmanualTestIdeaVersion=2025.3
+```
+
+See [Manual testing a plugin ZIP](docs/manual-testing.md) for the per-version installation and Quick Documentation checklist.
+
 Maintainers should follow [the release procedure](docs/releasing.md) before publishing a candidate.

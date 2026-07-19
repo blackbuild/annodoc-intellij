@@ -3,6 +3,8 @@
 # AnnoDoc Support for IntelliJ IDEA Changelog
 
 ## [Unreleased]
+### Added
+- Repeatable, dependency-free manual smoke-test projects for IntelliJ IDEA 2025.3 and 2026.1 plugin ZIP validation.
 
 ## [0.1.0-alpha.1]
 ### Added

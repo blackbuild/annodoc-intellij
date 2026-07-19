@@ -24,11 +24,13 @@ The plugin uses `PsiDocumentationTargetProvider` and `DocumentationTarget` becau
 
 ## Manual IDEA smoke test
 
-Automated verification cannot install into a user-managed IDEA instance. Before approving Marketplace publication, install `build/distributions/annodoc-intellij-0.1.0-alpha.1.zip` from disk in both IntelliJ IDEA 2025.3 and 2026.1, then record the following observations:
+Automated verification cannot install into a user-managed IDEA instance. Follow [Manual testing a plugin ZIP](manual-testing.md) to generate an isolated demo project, install `build/distributions/annodoc-intellij-0.1.0-alpha.1.zip` from disk in both IntelliJ IDEA 2025.3 and 2026.1, then record the following observations:
 
-1. In a plain Java project using the compiled AnnoDoc fixture without attached sources, invoke Quick Documentation on a documented type, method, field, and constructor; all should show the annotation-carried documentation.
-2. In a Groovy project using the KlumAST fixture, invoke Quick Documentation on a generated DSL API; its AnnoDoc documentation should appear without making Groovy a plugin runtime dependency.
-3. Invoke Quick Documentation where ordinary source Javadoc is available; native documentation must win.
-4. Invoke Quick Documentation on an unannotated or malformed/blank AnnoDoc declaration; no error or fabricated documentation should appear.
+1. Quick Documentation on the compiled class, interface, annotation type, record, enum, and nested structures shows their annotation-carried documentation.
+2. Quick Documentation on compiled methods, constructors, fields, generic declarations, and interface members shows readable inline markup and block tags.
+3. Ordinary source Javadoc wins over a source annotation, and a manually authored source annotation alone is not treated as compiled fallback documentation.
+4. Unannotated and blank-AnnoDoc declarations produce no error or fabricated documentation.
+
+The real KlumAST-generated compatibility case remains covered by the automated `KlumAstQuickDocumentationTest`; the manual project intentionally has no Groovy, KlumAST, or AnnoDocimal setup.
 
 If signing secrets are configured in the execution environment, run `./gradlew signPlugin verifyPluginSignature` and inspect only its success status and signed archive. Do not print or write the credential values. Otherwise, signing remains a maintainer-gated validation step.
